@@ -5,32 +5,45 @@ import TopMenu from '../containers/TopMenu'
 import MyDressList from '../containers/MyDressList'
 import BottomMenu from '../containers/BottomMenu'
 
-import { connect } from 'react-redux';
-import * as actions from '../actions';
+import { connect } from 'react-redux'
+import * as actions from '../actions'
 
 const mapStateToProps = (state) => {
     return {
         categoryname: state.category.categoryname
-    };
-};
+    }
+}
 
 const mapDispatchToProps = (dispatch) => {
-    //return bindActionCreators(actions, dispatch);
     return {
         handleCategory: () => { dispatch(actions.category())}
-    };
-};
+    }
+}
 
 class MyDress extends React.Component {
+
+  constructor(props){
+    super(props)
+    
+    this.state = {
+      searchDress : ''
+    }
+
+    this.handleSearchDressChange = this.handleSearchDressChange.bind(this)
+  }
+
+  handleSearchDressChange(e){
+    this.setState({searchDress : e})
+  }
   
   render () {
     return (
       <div className='container'>
         <Top />
-        <TopMenu categoryname={this.props.categoryname} />
+        <TopMenu searchDress={this.state.searchDress} handleSearchDressChange={this.handleSearchDressChange}/>
         <BottomMenu onCategory={this.props.handleCategory} />
         <div className='mydress'>
-          <MyDressList />
+          <MyDressList searchDress={this.state.searchDress}/>
         </div>
       </div>
     )

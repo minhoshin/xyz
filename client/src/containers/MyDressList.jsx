@@ -5,7 +5,7 @@ class MyDressList extends React.Component {
   render () {
     return (
       <div className='mydresslist'>
-        <h2>mydresslist</h2>
+        <h2>{this.props.searchDress}</h2>
       </div>
     )
   }

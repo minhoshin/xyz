@@ -27509,7 +27509,6 @@
 	};
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  //return bindActionCreators(actions, dispatch);
 	  return {
 	    handleCategory: function handleCategory() {
 	      dispatch(actions.category());
@@ -27520,25 +27519,37 @@
 	var MyDress = function (_React$Component) {
 	  _inherits(MyDress, _React$Component);
 
-	  function MyDress() {
+	  function MyDress(props) {
 	    _classCallCheck(this, MyDress);
 
-	    return _possibleConstructorReturn(this, (MyDress.__proto__ || Object.getPrototypeOf(MyDress)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (MyDress.__proto__ || Object.getPrototypeOf(MyDress)).call(this, props));
+
+	    _this.state = {
+	      searchDress: ''
+	    };
+
+	    _this.handleSearchDressChange = _this.handleSearchDressChange.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(MyDress, [{
+	    key: 'handleSearchDressChange',
+	    value: function handleSearchDressChange(e) {
+	      this.setState({ searchDress: e });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'container' },
 	        _react2.default.createElement(_Top2.default, null),
-	        _react2.default.createElement(_TopMenu2.default, { categoryname: this.props.categoryname }),
+	        _react2.default.createElement(_TopMenu2.default, { searchDress: this.state.searchDress, handleSearchDressChange: this.handleSearchDressChange }),
 	        _react2.default.createElement(_BottomMenu2.default, { onCategory: this.props.handleCategory }),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'mydress' },
-	          _react2.default.createElement(_MyDressList2.default, null)
+	          _react2.default.createElement(_MyDressList2.default, { searchDress: this.state.searchDress })
 	        )
 	      );
 	    }
@@ -27708,8 +27719,18 @@
 	  }
 
 	  _createClass(TopMenu, [{
+	    key: 'handleSearchDressChange',
+	    value: function handleSearchDressChange(e) {
+	      this.props.handleSearchDressChange(e.target.value);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+
+	      var activeTopMenuStyle = {
+	        float: 'right'
+	      };
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'container' },
@@ -27726,6 +27747,15 @@
 	                _reactRouter.Link,
 	                { to: '/mydress' },
 	                this.props.categoryname
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { style: activeTopMenuStyle },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                null,
+	                _react2.default.createElement('input', { type: 'text', placeholder: 'search', value: this.props.searchDress, onChange: this.handleSearchDressChange.bind(this) })
 	              )
 	            )
 	          )
@@ -27781,7 +27811,7 @@
 	        _react2.default.createElement(
 	          'h2',
 	          null,
-	          'mydresslist'
+	          this.props.searchDress
 	        )
 	      );
 	    }
